@@ -1,0 +1,96 @@
+/* ---------- Variables : palette « panneau routier » ---------- */
+:root {
+  --ink: #14213d;        /* bitume / texte */
+  --signal: #ffc93c;     /* jaune signalisation (accent principal) */
+  --paper: #f4f6fb;      /* fond de page */
+  --card: #ffffff;
+  --line: #d5dbe9;
+  --muted: #5b6785;
+  --ok: #1f7a5a;
+  --danger: #c0392b;
+  --radius: 14px;
+  font-family: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+h1, h2, h3 { line-height: 1.15; margin: 0 0 .6rem; letter-spacing: -.02em; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; }
+h2 { font-size: 1.4rem; margin-top: 2.4rem; }
+a { color: var(--ink); }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+
+/* ---------- Mise en page ---------- */
+main { min-height: calc(100vh - 140px); }
+.page, .narrow, .hero { max-width: 980px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+.narrow { max-width: 440px; }
+.page-head { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.page-head h1 { margin: 0; }
+.row { display: flex; flex-wrap: wrap; gap: .75rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.list { display: grid; gap: 1rem; }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+.empty, .hint { color: var(--muted); }
+.footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: .9rem; }
+
+/* ---------- Barre de menu ---------- */
+.topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1.5rem; background: var(--ink); }
+.brand { display: flex; align-items: center; gap: .6rem; color: #fff; text-decoration: none; font-weight: 800; font-size: 1.25rem; }
+.brand-mark { width: 14px; height: 14px; border-radius: 50%; background: var(--signal); box-shadow: 18px 0 0 -4px #fff; margin-right: 14px; }
+.menu { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.menu a:not(.btn) { color: #dfe5f5; text-decoration: none; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+.menu a.router-link-exact-active:not(.btn) { color: #fff; border-color: var(--signal); }
+
+/* ---------- Boutons ---------- */
+.btn { font: inherit; font-weight: 600; padding: .6rem 1.1rem; border-radius: 10px; border: 2px solid var(--ink); cursor: pointer; text-decoration: none; display: inline-block; background: transparent; color: var(--ink); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: var(--signal); border-color: var(--signal); color: var(--ink); }
+.btn-primary:hover:not(:disabled) { background: #ffd86b; border-color: #ffd86b; }
+.btn-ghost:hover { background: rgba(20, 33, 61, .07); }
+.btn-danger { border-color: var(--danger); color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.topbar .btn-ghost { color: #fff; border-color: #5b6785; }
+
+/* ---------- Accueil ---------- */
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items: center; padding-top: 3rem; }
+.hero p { font-size: 1.15rem; color: var(--muted); max-width: 46ch; margin-bottom: 1.5rem; }
+.hero-img { width: 100%; height: auto; }
+.logo { margin-bottom: 1rem; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } }
+
+/* ---------- Formulaires ---------- */
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+.form { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+label { display: grid; gap: .35rem; font-weight: 600; font-size: .95rem; }
+input { font: inherit; padding: .6rem .75rem; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+input:focus { border-color: var(--ink); outline: none; }
+.search { min-width: 260px; }
+.tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+.tabs button { flex: 1; font: inherit; font-weight: 600; padding: .7rem; border: 2px solid var(--line); background: transparent; border-radius: 10px; cursor: pointer; color: var(--muted); }
+.tabs button.active { border-color: var(--ink); background: var(--ink); color: #fff; }
+.error { color: var(--danger); font-weight: 600; margin: 0; }
+.success { color: var(--ok); font-weight: 600; }
+
+/* ---------- Carte de trajet : la « ligne de route » ---------- */
+.trajet { display: grid; grid-template-columns: 130px 1fr auto; gap: 1rem 1.5rem; align-items: center; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--signal); border-radius: var(--radius); padding: 1rem 1.25rem; }
+.trajet-when strong { display: block; font-size: 1.6rem; font-weight: 800; }
+.trajet-when span { color: var(--muted); font-size: .85rem; text-transform: capitalize; }
+.route { display: flex; align-items: center; gap: .75rem; font-weight: 700; flex-wrap: wrap; }
+.route-stop { display: inline-flex; align-items: center; gap: .5rem; }
+.route-stop::before { content: ''; width: 12px; height: 12px; border-radius: 50%; border: 3px solid var(--ink); background: var(--signal); }
+.route-stop:last-child::before { background: #fff; }
+.route-line { flex: 1; min-width: 36px; border-top: 3px dotted var(--ink); opacity: .4; }
+.trajet-meta { grid-column: 2; display: flex; gap: 1rem; color: var(--muted); font-size: .9rem; }
+.seats { font-weight: 700; color: var(--ok); }
+.seats.full { color: var(--danger); }
+.trajet-actions { grid-column: 3; grid-row: 1 / span 2; display: flex; gap: .5rem; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 700px) {
+  .trajet { grid-template-columns: 1fr; }
+  .trajet-meta, .trajet-actions { grid-column: 1; grid-row: auto; justify-content: flex-start; }
+}
+
+/* ---------- À propos ---------- */
+.members { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 1.5rem; }
+.role { color: var(--muted); font-weight: 600; margin: 0 0 .5rem; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
