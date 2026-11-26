@@ -1,0 +1,155 @@
+/* style.css - HOREGO, version XXL : verre violet, police Inter, tout s'adapte du mobile au très grand écran.
+   Réglages rapides : --largeur (largeur du site) et html { font-size } (taille globale). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --fond: #090b12; --texte: #f8fafc; --muted: #94a3b8; --focus: #a78bfa;
+  --accent: linear-gradient(135deg, #8b5cf6, #6366f1);
+  --glow1: rgba(139, 92, 246, .22); --glow2: rgba(59, 130, 246, .14);
+  --verre: rgba(255, 255, 255, .05); --verre-fort: rgba(255, 255, 255, .09);
+  --ligne: rgba(255, 255, 255, .12); --largeur: 1280px;
+  font-family: 'Inter', sans-serif; font-synthesis: none; color-scheme: dark;
+}
+/* Thème bleu (bouton "Thème" du menu) */
+:root[data-theme="bleu"] {
+  --fond: #061527; --texte: #eff6ff; --muted: #8fb0d8; --focus: #38bdf8;
+  --accent: linear-gradient(135deg, #0284c7, #2563eb);
+  --glow1: rgba(14, 165, 233, .26); --glow2: rgba(37, 99, 235, .16);
+}
+
+html { font-size: clamp(16px, .55vw + 11px, 24px) } /* tout est en rem : la taille suit l'écran */
+* { box-sizing: border-box; margin: 0 }
+body {
+  min-height: 100vh; color: var(--texte); padding: 1.5rem 1.25rem 8rem;
+  background:
+    radial-gradient(circle at 12% 8%, var(--glow1), transparent 38%),
+    radial-gradient(circle at 88% 82%, var(--glow2), transparent 42%),
+    var(--fond);
+  background-attachment: fixed;
+}
+a { color: inherit; text-decoration: none }
+h1, h2, h3 { letter-spacing: -.04em }
+h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 1.2rem }
+small, .muted { color: var(--muted); font-size: .85rem }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px }
+
+/* Verre */
+.glass { background: var(--verre); border: 1px solid var(--ligne); backdrop-filter: blur(18px); border-radius: 999px; box-shadow: 0 12px 40px rgba(0, 0, 0, .25) }
+
+/* Navigation (Navbar.vue) */
+.nav { display: flex; gap: .35rem; width: max-content; max-width: 100%; margin: 0 auto 2rem; padding: .4rem; overflow-x: auto }
+.onglet { padding: .75rem 1.6rem; border-radius: 999px; font-weight: 500; color: var(--muted); white-space: nowrap; transition: color .2s, background .2s }
+.onglet:hover { color: var(--texte) }
+.onglet.actif { background: var(--accent); color: #fff; box-shadow: 0 6px 20px var(--glow1) }
+button.onglet { background: none; border: 0; font: inherit; cursor: pointer }
+
+/* Cadre principal */
+.shell { max-width: var(--largeur); margin: 0 auto }
+.entete { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.8rem }
+.logo { display: flex; align-items: center; gap: .6rem; font-weight: 800; font-size: 1.4rem; letter-spacing: .04em }
+.logo-img { width: 2.6rem; height: 2.6rem; border-radius: .8rem }
+.recherche { flex: 1; color: var(--texte); padding: 1rem 1.5rem; font: inherit; outline: none }
+.recherche:focus { border-color: var(--focus) }
+.avatar { width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 1px solid var(--ligne); background: var(--accent); color: #fff; font: inherit; font-weight: 700; display: grid; place-items: center; cursor: pointer }
+
+/* Carrousel : grandes cartes */
+.carrousel { display: flex; gap: 1.2rem; overflow-x: auto; padding: .4rem 0 1.6rem; scrollbar-width: none }
+.carte { position: relative; flex: 0 0 min(24rem, 78vw); height: 17rem; border-radius: 2rem; display: flex; align-items: flex-end; padding: 1.5rem; font-size: 1.3rem; font-weight: 700; border: 1px solid var(--ligne); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); transition: transform .25s }
+.carte:hover { transform: translateY(-6px) }
+.voiture { position: absolute; top: 2.2rem; left: 2rem; width: 11rem }
+
+/* Panneaux */
+.duo-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem }
+.panel { background: var(--verre); border: 1px solid var(--ligne); backdrop-filter: blur(18px); border-radius: 1.6rem; padding: 2rem; margin-bottom: 1.4rem; box-shadow: 0 12px 40px rgba(0, 0, 0, .2) }
+.centre { max-width: 34rem; margin: 0 auto 1.4rem }
+.ligne { display: flex; align-items: center; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid var(--ligne) }
+.ligne:last-of-type { border-bottom: 0 }
+.ligne-txt { flex: 1; display: flex; flex-direction: column; min-width: 0 }
+.ligne-txt b { font-weight: 600 }
+.mini { width: 3.2rem; height: 3.2rem; border-radius: 1rem; display: grid; place-items: center; font-weight: 700; background: var(--verre-fort); color: #fff }
+.mini.grand { width: 5rem; height: 5rem; border-radius: 50%; font-size: 1.8rem; background: var(--accent) }
+.grille { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-bottom: 1.2rem }
+.grille.trois { grid-template-columns: repeat(3, 1fr); margin-top: 1.4rem }
+.mini-carte { background: var(--verre); border: 1px solid var(--ligne); border-radius: 1.2rem; padding: 1.4rem 1.1rem; transition: transform .2s }
+.mini-carte:hover { transform: translateY(-3px) }
+.membre { display: flex; flex-direction: column; gap: .5rem; align-items: center; text-align: center }
+
+/* Boutons et formulaires */
+.bouton { display: inline-block; background: var(--accent); color: #fff; border: 1px solid var(--ligne); border-radius: .9rem; padding: .85rem 1.6rem; font: inherit; font-weight: 600; cursor: pointer; margin-top: .6rem; transition: transform .2s, opacity .2s }
+.bouton:hover { transform: translateY(-2px) }
+.bouton.fantome { background: var(--verre); color: var(--texte) }
+.bouton.petit { padding: .55rem 1.1rem; font-size: .85rem; margin: 0 }
+.bouton:disabled { opacity: .5; cursor: not-allowed; transform: none }
+.formulaire { display: flex; flex-direction: column; gap: .9rem }
+.duo { display: flex; gap: .8rem }
+.duo > * { flex: 1 }
+.champ { width: 100%; background: var(--verre); border: 1px solid var(--ligne); color: var(--texte); border-radius: .9rem; padding: .95rem 1.2rem; font: inherit; outline: none }
+.champ:focus { border-color: var(--focus) }
+.erreur { color: #ff8a8a } .info { color: #86efac; margin-bottom: .6rem }
+
+/* Barre flottante du bas */
+.barre { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); width: min(40rem, calc(100% - 1.5rem)); display: flex; align-items: center; gap: .5rem; padding: .5rem; z-index: 5 }
+.rond { width: 2.7rem; height: 2.7rem; border-radius: 50%; background: transparent; border: 0; color: var(--texte); font-size: 1.2rem; display: grid; place-items: center; cursor: pointer }
+.rond:hover { background: var(--verre-fort) }
+.capsule { flex: 1; display: flex; align-items: center; gap: .8rem; background: var(--verre-fort); border-radius: 999px; padding: .4rem 1.1rem .4rem .4rem; min-width: 0 }
+.pastille { width: 2.7rem; height: 2.7rem; border-radius: 50%; background: var(--accent); flex: none }
+.capsule-txt { flex: 1; display: flex; flex-direction: column; min-width: 0; font-size: .9rem }
+.capsule-txt b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+
+/* Très grands écrans (XXL) */
+@media (min-width: 1600px) { :root { --largeur: 1560px } h2 { font-size: 2rem } .carte { height: 20rem } }
+@media (min-width: 2200px) { :root { --largeur: 2000px } html { font-size: 26px } }
+
+/* Tablette / mobile */
+@media (max-width: 860px) {
+  .duo-panels, .grille.trois { grid-template-columns: 1fr }
+  .logo { font-size: 0 } /* seul le logo reste visible */
+  .carte { height: 13rem }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+
+/* ===== Page d'accueil : héros, cartes photo, chiffres ===== */
+:root { --pill: #c4b5fd }
+:root[data-theme="bleu"] { --pill: #7dd3fc }
+.pill { display: inline-block; background: var(--pill); color: #14101f; border-radius: 999px; padding: 0 .3em; line-height: 1.15 }
+.hero { text-align: center; padding: clamp(3rem, 8vw, 7rem) 1.5rem; margin-bottom: 3rem; border-radius: 2.2rem; border: 1px solid var(--ligne); background-size: cover; background-position: center; background-color: rgba(255, 255, 255, .03) }
+.eyebrow { text-transform: uppercase; letter-spacing: .2em; font-size: .8rem; font-weight: 700; color: var(--focus); margin-bottom: 1.4rem }
+.titre-xxl { font-size: clamp(2.4rem, 7vw, 6rem); line-height: 1.02; font-weight: 800; letter-spacing: -.05em; max-width: 16ch; margin: 0 auto 1.6rem }
+.sous-titre { color: var(--muted); font-size: 1.15rem; max-width: 40rem; margin: 0 auto 2rem; line-height: 1.6 }
+.cta { display: flex; justify-content: center; gap: .9rem; flex-wrap: wrap }
+.cta .bouton { margin: 0; border-radius: 999px; padding: 1rem 2rem }
+
+.titre-section { font-size: clamp(2rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.045em; text-align: center; margin: 1rem 0 2rem }
+.titre-section.gauche { text-align: left; margin: 0 }
+.cartes3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 4rem }
+.carte-photo { min-height: 30rem; border-radius: 2rem; padding: 1.6rem; display: flex; flex-direction: column; justify-content: space-between; background-size: cover; background-position: center; border: 1px solid var(--ligne); transition: transform .25s }
+.carte-photo:hover { transform: translateY(-6px) }
+.carte-photo h3 { font-size: 2rem; line-height: 1.05; font-weight: 800; margin-bottom: .6rem }
+.carte-photo p { opacity: .9; line-height: 1.5 }
+.entete-carte { display: flex; align-items: center; gap: .8rem }
+.puce { background: var(--pill); color: #14101f; font-weight: 800; border-radius: .8rem; padding: .55rem .8rem }
+.tag { text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; font-weight: 700 }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 3rem; padding: 2rem 0 }
+.stat { display: flex; align-items: baseline; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--ligne) }
+.stat:last-child { border-bottom: 0 }
+.stat b { font-size: clamp(2.6rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -.05em; line-height: 1 }
+.stat span { color: var(--muted); font-size: 1.1rem }
+
+@media (max-width: 860px) { .cartes3, .stats { grid-template-columns: 1fr } .carte-photo { min-height: 22rem } }
+
+/* ===== Thème Clair (site en blanc) ===== */
+:root[data-theme="clair"] {
+  color-scheme: light;
+  --fond: #ffffff; --texte: #14101f; --muted: #5b6475; --focus: #7c3aed;
+  --glow1: rgba(139, 92, 246, .12); --glow2: rgba(59, 130, 246, .08);
+  --verre: rgba(20, 16, 31, .04); --verre-fort: rgba(20, 16, 31, .08); --ligne: rgba(20, 16, 31, .14);
+}
+:root[data-theme="clair"] .glass, :root[data-theme="clair"] .panel { box-shadow: 0 8px 30px rgba(20, 16, 31, .08) }
+:root[data-theme="clair"] .erreur { color: #dc2626 }
+:root[data-theme="clair"] .info { color: #15803d }
+/* Le héros garde un fond photo sombre : son texte reste blanc dans tous les thèmes */
+.hero { color: #fff }
+.hero .eyebrow { color: #c4b5fd }
+.hero .sous-titre { color: rgba(255, 255, 255, .8) }
+.hero .bouton.fantome { color: #fff }
