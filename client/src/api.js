@@ -1,38 +1,24 @@
-/**
- * Petit client HTTP autour de fetch.
- * - credentials: 'include' envoie le cookie de session à chaque requête ;
- * - toute réponse non-2xx lève une Error dont le message vient du serveur ({ message }).
- */
-async function request(method, url, body) {
-  const options = {
-    method,
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' }
-  }
-  if (body !== undefined) options.body = JSON.stringify(body)
+// api.js : instance Axios partagée (ajoute le jeton JWT automatiquement)
+import axios from 'axios'
 
-  const response = await fetch(url, options)
-  const data = await response.json().catch(() => ({}))
-  if (!response.ok) throw new Error(data.message || `Erreur ${response.status}`)
-  return data
+const api = axios.create({ baseURL: '/api' })
+
+api.interceptors.request.use((config) => {
+  try {
+    const token = localStorage.getItem('horego-token')
+    if (token) config.headers.Authorization = `Bearer ${token}`
+  } catch (e) {}
+  return config
+})
+
+// Extrait un message d'erreur lisible
+export const errMsg = (e, fallback = 'Une erreur est survenue') =>
+  e?.response?.data?.message || (e?.request ? 'Serveur injoignable' : fallback)
+
+export const formatDate = (iso) => {
+  if (!iso) return ''
+  const d = new Date(iso)
+  return d.toLocaleString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 }
 
-export const api = {
-  // Authentification
-  register: (user) => request('POST', '/api/register', user),
-  login: (credentials) => request('POST', '/api/login', credentials),
-  logout: () => request('POST', '/api/logout'),
-  me: () => request('GET', '/api/me'),
-
-  // Trajets
-  getTrajets: () => request('GET', '/api/trajets'),               // trajets à venir de tous les utilisateurs
-  getMesTrajets: () => request('GET', '/api/mes-trajets'),         // trajets publiés par l'utilisateur
-  createTrajet: (trajet) => request('POST', '/api/trajets', trajet),
-  updateTrajet: (id, trajet) => request('PUT', `/api/trajets/${id}`, trajet),
-  deleteTrajet: (id) => request('DELETE', `/api/trajets/${id}`),
-
-  // Réservations
-  reserver: (trajetId) => request('POST', `/api/trajets/${trajetId}/reservations`),
-  getMesReservations: () => request('GET', '/api/mes-reservations'),
-  annulerReservation: (reservationId) => request('DELETE', `/api/reservations/${reservationId}`)
-}
+export default api

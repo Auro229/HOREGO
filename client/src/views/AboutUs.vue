@@ -8,7 +8,7 @@ const membres = [
 </script>
 
 <template>
-  <div class="panel">
+  <div class="panel">**************
     <h2>À propos de HOREGO</h2>
     <p class="muted">Plateforme de covoiturage pour la communauté étudiante d'EFREI, réalisée par un groupe de trois étudiants.</p>
     <div class="grille trois">

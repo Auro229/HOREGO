@@ -1,22 +1,17 @@
-/**
- * index.js - Point d'entrée du serveur HOREGO (Express).
- * Lancement : npm install && npm start  (http://localhost:3000)
- */
-require('dotenv').config(); // charge .env (PORT, JWT_SECRET, CLIENT_URL) avant tout le reste
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-// Le client Vue (Vite) tourne sur le port 5173 ; credentials: true pour les cookies
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
-app.use(cookieParser());
 
-app.use('/api', require('./routes/auth'));
-app.use('/api', require('./routes/trajets'));
-app.use('/api', require('./routes/reservations'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/trips', require('./routes/trips'));
+app.use('/api/bookings', require('./routes/bookings'));
 
-app.listen(PORT, () => console.log(`HOREGO API sur http://localhost:${PORT}`));
+app.get('/api', (req, res) => res.json({ app: 'HOREGO API', status: 'ok' }));
+
+app.listen(port, () => console.log(`HOREGO API lancée sur http://localhost:${port}`));

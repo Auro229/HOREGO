@@ -1,22 +1,22 @@
-/** useTheme.js - Thèmes Noir / Bleu / Clair (blanc), mémorisé dans le navigateur. */
+// composables/useTheme.js : thèmes Noir / Bleu / Blanc
 import { ref } from 'vue'
 
-const CLE = 'horego-theme'
-const THEMES = ['noir', 'bleu', 'clair']
+export const THEMES = ['noir', 'bleu', 'blanc']
 const theme = ref('noir')
-try { const m = localStorage.getItem(CLE); if (THEMES.includes(m)) theme.value = m } catch { /* stockage indisponible */ }
 
-/** Applique le thème : le CSS réagit à l'attribut data-theme sur <html> */
-function appliquer() {
-  document.documentElement.dataset.theme = theme.value
-  try { localStorage.setItem(CLE, theme.value) } catch { /* ignoré */ }
+function apply(t) {
+  theme.value = t
+  document.documentElement.setAttribute('data-theme', t)
+  try { localStorage.setItem('horego-theme', t) } catch (e) {}
 }
-appliquer()
+
+export function initTheme() {
+  let saved = 'noir'
+  try { saved = localStorage.getItem('horego-theme') || 'noir' } catch (e) {}
+  apply(THEMES.includes(saved) ? saved : 'noir')
+}
 
 export function useTheme() {
-  const basculer = () => {
-    theme.value = THEMES[(THEMES.indexOf(theme.value) + 1) % THEMES.length]
-    appliquer()
-  }
-  return { theme, basculer }
+  const nextTheme = () => apply(THEMES[(THEMES.indexOf(theme.value) + 1) % THEMES.length])
+  return { theme, THEMES, setTheme: apply, nextTheme }
 }

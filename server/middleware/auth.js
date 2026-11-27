@@ -1,21 +1,15 @@
-/**
- * middleware/auth.js - Vérifie le JWT stocké dans le cookie "token".
- * Si valide, place l'utilisateur dans req.user ({ id, nom, email }).
- */
+// middleware/auth.js : vérifie le jeton JWT (Authorization: Bearer ...)
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'horego-secret-dev-a-changer';
-
-function authRequise(req, res, next) {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: 'Non authentifié' });
-
+module.exports = function auth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (!token) return res.status(401).json({ message: 'Connexion requise' });
   try {
-    req.user = jwt.verify(token, JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { id: payload.id };
     next();
-  } catch (err) {
-    res.status(401).json({ message: 'Session invalide ou expirée' });
+  } catch (e) {
+    res.status(401).json({ message: 'Session expirée, reconnecte-toi' });
   }
-}
-
-module.exports = { authRequise, JWT_SECRET };
+};
